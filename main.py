@@ -1,18 +1,12 @@
-import bson
 import flask
 from flask import Flask
-from flask import jsonify
-
-import json
-from bson import ObjectId
-
-
+from flask_cors import CORS
 
 from shared.components.documents.document import generate_document
 from shared.components.mongo.mongo import get_data
 
 app = Flask(__name__)
-
+CORS(app)
 
 @app.route('/')
 def resp():
