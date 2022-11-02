@@ -3,6 +3,7 @@ from flask import Flask
 from flask_cors import CORS
 
 from shared.components.documents.document import generate_document
+from shared.components.main_page.main_page import main_page_data
 from shared.components.mongo.mongo import get_data
 
 app = Flask(__name__)
@@ -26,19 +27,20 @@ def test_documents():
 def test_request():
     a = get_data()
     b = []
-    # data = {
-    #     "response": bson.BSON(a[0]['_id'])
-    # }
     for i in a:
         i['_id'] = 'null'
         b.append(i)
         print(i)
-
     data = {
         "response": b
     }
     return data
 
+
+@app.route('/api/mainPageCardData', methods=["GET"])
+def cardData():
+    data = main_page_data()
+    return {"response": data}
 
 
 # app.run()
