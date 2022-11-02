@@ -41,6 +41,3 @@ def test_request():
 def cardData():
     data = main_page_data()
     return {"response": data}
-
-
-# app.run()
