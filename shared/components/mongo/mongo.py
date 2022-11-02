@@ -20,4 +20,15 @@ def send_doc(file, date, name):
 
     collection.insert_one({"Operation" : f'Заява на выідпустку {name} {date}', "filename": file, "file": encoded, "description": f'Звява від {date}'})
 
+def get_data():
+    db = myclient['TELEGRAM_BOT']  # TELEGRAM_BOT
+    collection = db['PYTHON_TEST']  # PYTHON_TEST
+
+    cur = collection.find()
+    res = list(cur)
+
+
+    # print(res)
+    return res
+
 
