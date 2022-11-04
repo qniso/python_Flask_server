@@ -1,4 +1,5 @@
 import requests
+import os
 from docx.shared import Mm
 from docxtpl import DocxTemplate, InlineImage
 
@@ -11,9 +12,9 @@ from shared.components.mongo.mongo import send_doc
 def generate_document(date_start, date_end, name):
     days_count = '-'
     a = ''
-    doc = DocxTemplate('shared/components/documents/template/template_holiday/holiday_template.docx')
+    doc = DocxTemplate(os.path.join('resources/template/template_holiday/holiday_template.docx'))
     shtamp = InlineImage(doc,
-                         image_descriptor='shared/components/documents/template/img/izgotovlenie-faksimile-300x300-2.png',
+                         image_descriptor='resources/template/img/izgotovlenie-faksimile-300x300-2.png',
                          width=Mm(40), height=Mm(40))
     datetime_conv_start = datetime.date(int(date_start.split(".")[2]), int(date_start.split(".")[1]),
                                         int(date_start.split(".")[0]))
@@ -45,3 +46,6 @@ def generate_document(date_start, date_end, name):
     doc.save(f'Заява на відпустку {name} {datetime.datetime.now().strftime("%m.%d.%Y")}.docx')
     send_doc(f'Заява на відпустку {name} {datetime.datetime.now().strftime("%m.%d.%Y")}.docx',
              datetime.datetime.now().strftime("%m.%d.%Y"), name)
+
+
+generate_document('10.01.2022', '12.01.2022', 'test')
