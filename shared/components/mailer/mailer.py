@@ -5,6 +5,7 @@ from email.mime.multipart import MIMEMultipart
 
 import os
 
+
 def send_email(file_name):
     email_sender = 'mail.test.for.exmpl@gmail.com'
     email_pass = 'hbtvlzlkzgnelwcr'
@@ -35,4 +36,3 @@ def send_email(file_name):
         file.add_header('content-disposition', 'attachment', filename=file_name)
         smtp.login(email_sender, email_pass)
         smtp.sendmail(email_sender, email_reciver, msg.as_string())
-

@@ -31,15 +31,17 @@ def generate_document(date_start, date_end, name):
     else:
         a = 'день'
 
-    context = {'company_name': 'OATS',
-               'person_name': f'{name}',
-               'date_start': f'{date_start}',
-               'date_end': f'{date_end}',
-               'days_count': f'{int(days_count) + 1}',
-               'days_word': f'{a}',
-               'date': datetime.datetime.now().strftime("%m.%d.%Y"),
-               'print': shtamp,
-               }
+    context = {
+        'company_name': 'OATS',
+        'person_name': f'{name}',
+        'date_start': f'{date_start}',
+        'date_end': f'{date_end}',
+        'days_count': f'{int(days_count) + 1}',
+        'days_word': f'{a}',
+        'date': datetime.datetime.now().strftime("%m.%d.%Y"),
+        'print': shtamp,
+    }
     doc.render(context)
     doc.save(f'Заява на відпустку {name} {datetime.datetime.now().strftime("%m.%d.%Y")}.docx')
-    send_doc(f'Заява на відпустку {name} {datetime.datetime.now().strftime("%m.%d.%Y")}.docx', datetime.datetime.now().strftime("%m.%d.%Y"), name)
+    send_doc(f'Заява на відпустку {name} {datetime.datetime.now().strftime("%m.%d.%Y")}.docx',
+             datetime.datetime.now().strftime("%m.%d.%Y"), name)

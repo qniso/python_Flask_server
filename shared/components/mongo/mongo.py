@@ -7,7 +7,8 @@ from bson.binary import Binary
 ca = certifi.where()
 
 myclient = pymongo.MongoClient(
-    "mongodb+srv://Admin_qniso:BUOorKChVrdWTWVu@telegrambot.n1ebp.mongodb.net/?retryWrites=true&w=majority", tlsCAFile=ca
+    "mongodb+srv://Admin_qniso:BUOorKChVrdWTWVu@telegrambot.n1ebp.mongodb.net/?retryWrites=true&w=majority",
+    tlsCAFile=ca
 )
 
 
@@ -18,8 +19,14 @@ def send_doc(file, date, name):
     with open(f'{file}', 'rb') as f:
         encoded = Binary(f.read())
 
-    collection.insert_one({"Operation" : f'Заява на выідпустку {name} {date}', "filename": file, "file": encoded, "description": f'Звява від {date}'})
-
+    collection.insert_one(
+        {
+            "Operation": f'Заява на выідпустку {name} {date}',
+            "filename": file,
+            "file": encoded,
+            "description": f'Звява від {date}'
+        }
+    )
 
 
 def get_plan_data():
@@ -36,6 +43,7 @@ def get_plan_data():
         print(i)
     return data
 
+
 def get_data():
     db = myclient['TELEGRAM_BOT']  # TELEGRAM_BOT
     collection = db['PYTHON_TEST']  # PYTHON_TEST
@@ -43,8 +51,5 @@ def get_data():
     cur = collection.find()
     res = list(cur)
 
-
     # print(res)
     return res
-
-
