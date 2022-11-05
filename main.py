@@ -9,6 +9,7 @@ from shared.components.mongo.mongo import get_data
 app = Flask(__name__)
 CORS(app)
 
+
 @app.route('/')
 def resp():
     return {"response": True}
@@ -22,6 +23,7 @@ def test_documents():
     generate_document(date_start, date_end, full_name)
 
     return {"response": {"date_start": date_start, "date_end": date_end, "full_name": full_name}}
+
 
 @app.route('/test', methods=['GET'])
 def test_request():
