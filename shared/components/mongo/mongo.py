@@ -1,6 +1,6 @@
 import datetime
 import pymongo
-
+import jwt
 import certifi
 from bson.binary import Binary
 
@@ -53,3 +53,31 @@ def get_data():
 
     # print(res)
     return res
+
+
+def get_user(login, password):
+    db = myclient['diplom']  # TELEGRAM_BOT
+    collection = db['users']  # PYTHON_TEST
+
+    cur = collection.find({"login": login})
+
+    res = list(cur)
+
+    error = {
+        'code': 1,
+        'description': 'wrong pass or login'
+    }
+    access_token = jwt.encode({"login": login, "password": password}, 'secret', algorithm="HS256")
+    data = {
+        "access_token": access_token,
+        "login": login,
+        "error": {
+            "code": 0,
+            "description": None
+        }
+    }
+    for i in res:
+        if i['password'] != password:
+            return error
+        else :
+            return data

@@ -1,10 +1,10 @@
 import flask
-from flask import Flask
+from flask import Flask, jsonify, request
 from flask_cors import CORS
-
+import jwt
 from shared.components.documents.document import generate_document
 from shared.components.main_page.main_page import main_page_data
-from shared.components.mongo.mongo import get_data
+from shared.components.mongo.mongo import get_data, get_user
 
 app = Flask(__name__)
 CORS(app)
@@ -12,6 +12,21 @@ CORS(app)
 @app.route('/')
 def resp():
     return {"response": True}
+
+
+@app.route('/login', methods=["POST"])
+def auth():
+    data = flask.request.get_json()
+    login = data['login']
+    password = data['password']
+
+    payload = {
+        "login": login,
+        "password": password
+    }
+    data = get_user(login, jwt.encode({"password": password}, 'secret', algorithm="HS256"))
+
+    return jsonify(data)
 
 
 @app.route('/document_gen', methods=['GET'])
