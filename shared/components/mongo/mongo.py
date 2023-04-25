@@ -81,3 +81,17 @@ def get_user(login, password):
             return error
         else :
             return data
+
+
+
+def get_car_numbers():
+    db = myclient['TELEGRAM_BOT']  # TELEGRAM_BOT
+    collection = db['CAR_NUMBERS']  # PYTHON_TEST
+
+    cur = collection.find()
+    res = list(cur)
+    print(res)
+    response = {
+
+    }
+    return res

@@ -4,7 +4,7 @@ from flask_cors import CORS
 import jwt
 from shared.components.documents.document import generate_document
 from shared.components.main_page.main_page import main_page_data
-from shared.components.mongo.mongo import get_data, get_user
+from shared.components.mongo.mongo import get_data, get_user,get_car_numbers
 
 app = Flask(__name__)
 CORS(app)
@@ -56,3 +56,9 @@ def test_request():
 def cardData():
     data = main_page_data()
     return {"response": data}
+
+
+@app.route('/getCarNumbers', methods=["GET"])
+def carNumbers():
+    data = get_car_numbers()
+    return data
