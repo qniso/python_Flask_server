@@ -1,17 +1,44 @@
+import json
+
 import flask
-from flask import Flask
+import jwt
+from flask import Flask, jsonify
 from flask_cors import CORS
 
 from shared.components.documents.document import generate_document
 from shared.components.main_page.main_page import main_page_data
-from shared.components.mongo.mongo import get_data
+from shared.components.mongo.mongo import get_data, auth,get_car_numbers, get_car_fuel_data
 
 app = Flask(__name__)
 CORS(app)
+key = 'secret'
+
 
 @app.route('/')
 def resp():
     return {"response": True}
+
+
+@app.route('/login', methods=['POST'])
+def login():
+    data = flask.request.get_json()
+    login = data['login']
+    password = data['password']
+
+    auth(login, password)
+
+    print(login, password)
+    encode = jwt.encode({"pass": password}, key, algorithm="HS256")
+
+    return {
+        "access_tokken": encode,
+        "refresh_token": '123',
+        "error": {
+            "code": 0,
+            "description": None
+        },
+        "expDate": '12.12.2020'
+    }
 
 
 @app.route('/document_gen', methods=['GET'])
@@ -41,3 +68,17 @@ def test_request():
 def cardData():
     data = main_page_data()
     return {"response": data}
+
+@app.route('/getCarFuel', methods=['GET'])
+def carFuel():
+    car_numbers = get_car_numbers()
+    car_fuel = get_car_fuel_data()
+
+    data = {
+            "car_info_list": car_fuel,
+            "car_numbers": car_numbers
+        }
+
+
+    return data
+
