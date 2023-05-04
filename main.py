@@ -1,5 +1,5 @@
 import json
-
+import base64
 import flask
 import jwt
 from flask import Flask, jsonify
@@ -7,7 +7,12 @@ from flask_cors import CORS
 
 from shared.components.documents.document import generate_document
 from shared.components.main_page.main_page import main_page_data
-from shared.components.mongo.mongo import get_data, auth,get_car_numbers, get_car_fuel_data
+from shared.components.mongo.mongo import \
+    get_data, \
+    auth,\
+    get_car_numbers, \
+    get_car_fuel_data,\
+    get_document_from_DB
 
 app = Flask(__name__)
 CORS(app)
@@ -82,3 +87,12 @@ def carFuel():
 
     return data
 
+@app.route('/get_documents', methods=['GET'])
+def get_documents():
+    documents_list = get_document_from_DB()
+
+    data = {
+        "documents": documents_list
+    }
+    # return data
+    # print(data)
